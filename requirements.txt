@@ -4,6 +4,10 @@ mlflow
 pandas
 numpy
 PyYAML
+tensorflow
+matplotlib
+seaborn
+sklearn
 
 ### local packages -
 # -e . # << uncomment this to install from setup.py
