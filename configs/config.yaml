@@ -18,3 +18,14 @@ source_download_dirs:
 local_data_dirs:
   - path_to_local_data_1
   - path_to_local_data_2
+
+model_config:
+  BUFFER_size: 1000
+  BATCH_SIZE: 64
+  VOCAB_SIZE: 1000
+  OUTPUT_DIM: 64
+  EPOCHS: 10
+  METRICS: accuracy
+  VALIDATION_STEPS: 30
+  
+  
