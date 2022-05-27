@@ -44,4 +44,5 @@ data:
   column4: flag
   column5: User
   column6: tweet_text
-
+  negative_sentiment: 0
+  positive_sentiment: 4
