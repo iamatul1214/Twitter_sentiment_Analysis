@@ -5,7 +5,7 @@ import os
 import shutil
 from tqdm import tqdm
 import logging
-from src.utils.common import read_yaml, create_directories, unzip_file
+from src.utils.common import read_yaml, create_directories, unzip_file, rename_file
 import random
 import urllib.request as req
 import pandas as pd
@@ -50,6 +50,9 @@ def main(config_path):
         logging.info("data extracted successfully")
 
     # validate_image(config)
+    oldfile_name = config['data']['downloaded_file_name']
+    newfile_name = config['data']['name_to_be_changed']
+    rename_file(file_path=unzip_data_dir,oldfile_name=oldfile_name,newfile_name=newfile_name)
 
 
 if __name__ == '__main__':

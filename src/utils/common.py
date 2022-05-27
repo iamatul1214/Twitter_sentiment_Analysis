@@ -4,6 +4,8 @@ import logging
 import time
 import pandas as pd
 import json
+from zipfile import ZipFile
+
 
 def read_yaml(path_to_yaml: str) -> dict:
     with open(path_to_yaml) as yaml_file:
@@ -29,3 +31,15 @@ def unzip_file(source:str, dest:str) ->None:        ## This function will take a
     with ZipFile(source,"r") as zip_f:
         zip_f.extractall(dest)
     logging.info(f"extracted {source} to the {dest}")  
+
+def rename_file(file_path:str,oldfile_name:str, newfile_name:str)->None:
+    try:
+        logging.info("Trying to rename the file name")
+        if os.path.isfile(os.path.join(file_path,newfile_name)):
+            logging.info("File is already renamed. Hence, skipping the renaming")
+        else:
+            os.rename(os.path.join(file_path,oldfile_name),os.path.join(file_path,newfile_name))
+            logging.info(f"Renamed the file from {oldfile_name} to {newfile_name}")
+    except exception as e:
+        logging.exception(e)
+
