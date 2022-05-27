@@ -27,5 +27,10 @@ model_config:
   EPOCHS: 10
   METRICS: accuracy
   VALIDATION_STEPS: 30
-  
+
+data:
+  url: "https://www.kaggle.com/datasets/kazanova/sentiment140/download"
+  local_dir: dataset
+  data_file: data.zip
+  unzip_data_dir: tweets_dataset
   
