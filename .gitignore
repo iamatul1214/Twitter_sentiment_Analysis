@@ -141,3 +141,7 @@ configs/secrets.yaml
 mlruns/
 
 
+## dataset folders
+dataset
+dataset/data.zip
+tweets_dataset
