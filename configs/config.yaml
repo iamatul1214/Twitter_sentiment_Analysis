@@ -35,4 +35,13 @@ data:
   unzip_data_dir: tweets_dataset
   downloaded_file_name: training.1600000.processed.noemoticon.csv
   name_to_be_changed: tweets_dataset.csv
-  
+  encoding_type: ISO-8859-1
+  column_length: 6
+  columns: ['target','Ids','Date','flag','User','tweet_text']
+  column1: target
+  column2: Ids
+  column3: Date
+  column4: flag
+  column5: User
+  column6: tweet_text
+
