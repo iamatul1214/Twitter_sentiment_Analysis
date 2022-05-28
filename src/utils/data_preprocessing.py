@@ -8,6 +8,7 @@ import logging
 import json
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 
 ## remove not mandatory columns from the dataframe
 
@@ -37,5 +38,25 @@ def plot_data_distribution(dataframe,plot_location,filename):
         plot_name=time +'_'+filename+".png"
         plt.savefig(os.path.join(plot_location,plot_name))
         logging.info(f"Saved the count plot figure in the location: {plot_location} with name: {plot_name}")
+    except Exception as e:
+        logging.exception(e)
+
+def separating_label_feature(dataframe):
+    try:
+        logging.info("Trying to store tweet text and target values differently")
+        X = dataframe.tweet_text
+        Y = dataframe.target
+        logging.info(f"The x and y data is successfully separated: {X} and {Y}")
+        return X,Y
+
+    except Exception as e:
+        logging.exception(e)
+
+def train_test_split_operation(feature_list, targets, test_size, random_state,shuffle=True):
+    try:
+        logging.info("Trying to create the train test split")
+        x_train,x_test,y_train,y_test = train_test_split(feature_list, targets, test_size=test_size, random_state = random_state, shuffle=shuffle)
+        logging.info(f"The train test split happened properly with ratio: {test_size} and shape of x_train: {x_train.shape}, y_train:{y_train.shape}, x_test:{x_test.shape}, y_test:{y_test.shape}")
+        return x_train, x_test, y_train, y_test
     except Exception as e:
         logging.exception(e)
