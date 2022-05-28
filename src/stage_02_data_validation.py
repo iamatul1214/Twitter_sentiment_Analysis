@@ -5,7 +5,7 @@ from tqdm import tqdm
 import logging
 from src.utils.common import read_yaml, create_directories
 import random
-from src.utils.data_preprocessing import read_csv, check_null_values,check_binary_classification,check_data_distribution
+from src.utils.data_validation import read_csv, check_null_values,check_binary_classification,check_data_distribution
 
 STAGE = "Data Validation"   ## Name of the stage
 
