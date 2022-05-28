@@ -46,3 +46,7 @@ data:
   column6: tweet_text
   negative_sentiment: 0
   positive_sentiment: 4
+
+Eda_artifacts:
+  plots: Eda_plots
+  count_plot_name: count_plot
