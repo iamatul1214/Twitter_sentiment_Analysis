@@ -9,6 +9,7 @@ import json
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+import tensorflow as tf
 
 ## remove not mandatory columns from the dataframe
 
@@ -78,5 +79,29 @@ def store_preprocessed_dataset(x_train, y_train, x_test, y_test, folder_location
         y_test.to_csv(os.path.join(folder_location,"y_test.csv"))
         logging.info("Saved the latest dataset to the location: {folder_location}")
 
+    except Exception as e:
+        logging.exception(e)
+
+def convert_data_into_numpy(x_train, y_train, x_test, y_test, folder_location):
+    try:
+        logging.info("Trying to convert the dataset into numpy and flatten them")
+        x_train = np.array([x_train]).flatten()
+        x_test = np.array([x_test]).flatten()
+        y_train = np.array([y_train]).flatten()
+        y_test = np.array([y_test]).flatten()
+        logging.info("Converted successfully the dataset into numpy array and flattened it")
+        return x_train,x_test,y_train,y_test
+    except Exception as e:
+        logging.exception(e)
+
+def convert_numpy_dataset_to_tensors(x_train,y_train,x_test,y_test):
+    try:
+        logging.info("Trying to convert the numpy datasets into tensors")
+        x_train_dataset = tf.data.Dataset.from_tensor_slices(x_train)
+        x_test_dataset = tf.data.Dataset.from_tensor_slices(x_test)
+        y_train_dataset = tf.data.Dataset.from_tensor_slices(y_train)
+        y_test_dataset = tf.data.Dataset.from_tensor_slices(y_test)
+        logging.info("Successfully converted the numpy datasets into tensors")
+        return x_train_dataset, x_test_dataset,y_train_dataset, y_test_dataset
     except Exception as e:
         logging.exception(e)
