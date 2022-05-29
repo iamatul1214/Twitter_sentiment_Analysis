@@ -5,8 +5,8 @@ from tqdm import tqdm
 import logging
 from src.utils.common import read_yaml, create_directories
 import random
+from src.utils.data_preprocessing import keep_important_columns, replace_target_values,plot_data_distribution,separating_label_feature,train_test_split_operation,store_preprocessed_dataset
 from src.utils.data_validation import read_csv, check_null_values,check_binary_classification,check_data_distribution
-from src.utils.data_preprocessing import keep_important_columns, replace_target_values,plot_data_distribution,separating_label_feature,train_test_split_operation
 
 STAGE = "Data Preprocessing"   ## Name of the stage
 
@@ -30,6 +30,7 @@ def main(config_path):
     train_test_split_ratio = config['model_config']['train_test_split']
     random_state = config['model_config']['random_state']
     shuffle = config['model_config']['shuffle']
+    preprocessed_dataset_folder = config['data']['preprocessed_data_folder']
 
     ## reading the dataframe
     dataframe = read_csv(file_location=file_location,file_name=file_name,columns=columns,encoding_type=encoding_type)
@@ -52,7 +53,11 @@ def main(config_path):
                                                          random_state =random_state, shuffle = shuffle)
 
 
+    ## creating preprocessed_dataset folder to store the preprocessed dataset
+    create_directories([preprocessed_dataset_folder])
 
+    ## storing the preprocessed dataset
+    store_preprocessed_dataset(x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, folder_location=preprocessed_dataset_folder)
 
 
 if __name__ == '__main__':

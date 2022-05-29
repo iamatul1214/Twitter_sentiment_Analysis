@@ -60,3 +60,23 @@ def train_test_split_operation(feature_list, targets, test_size, random_state,sh
         return x_train, x_test, y_train, y_test
     except Exception as e:
         logging.exception(e)
+
+def store_preprocessed_dataset(x_train, y_train, x_test, y_test, folder_location):
+    try:    
+        logging.info(f"Trying to delete the older stored datasets into the location : {folder_location}")
+        total_files = os.listdir(folder_location)
+        if len(total_files) > 0:
+            for f in os.listdir(folder_location):                
+                os.remove(os.path.join(folder_location, f))
+                logging.info(f"Deleted {f} stored datasets from the location : {folder_location}")
+        else:
+            logging.info(f"There are no preprocessed files present already.")
+        
+        x_train.to_csv(os.path.join(folder_location,"x_train.csv"))
+        y_train.to_csv(os.path.join(folder_location,"y_train.csv"))
+        x_test.to_csv(os.path.join(folder_location,"x_test.csv"))
+        y_test.to_csv(os.path.join(folder_location,"y_test.csv"))
+        logging.info("Saved the latest dataset to the location: {folder_location}")
+
+    except Exception as e:
+        logging.exception(e)

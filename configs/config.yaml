@@ -27,6 +27,10 @@ model_config:
   EPOCHS: 10
   METRICS: accuracy
   VALIDATION_STEPS: 30
+  train_test_split: 0.25
+  random_state: 23
+  shuffle: True
+
 
 data:
   url: "https://www.kaggle.com/datasets/kazanova/sentiment140/download"
@@ -46,7 +50,9 @@ data:
   column6: tweet_text
   negative_sentiment: 0
   positive_sentiment: 4
+  preprocessed_data_folder: preprocessed_dataset
 
 Eda_artifacts:
   plots: Eda_plots
   count_plot_name: count_plot
+
