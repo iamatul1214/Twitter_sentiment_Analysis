@@ -82,7 +82,7 @@ def store_preprocessed_dataset(x_train, y_train, x_test, y_test, folder_location
     except Exception as e:
         logging.exception(e)
 
-def convert_data_into_numpy(x_train, y_train, x_test, y_test, folder_location):
+def convert_data_into_numpy(x_train, y_train, x_test, y_test):
     try:
         logging.info("Trying to convert the dataset into numpy and flatten them")
         x_train = np.array([x_train]).flatten()

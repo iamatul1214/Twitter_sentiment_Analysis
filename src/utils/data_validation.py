@@ -46,3 +46,16 @@ def check_data_distribution(dataframe, negative_sentiment=0, positive_sentiment=
         return ratio
     except Exception as e:
         logging.exception(e)
+
+def read_train_test_split_datasets(file_location,x_train,x_test,y_train,y_test):
+    try:
+        logging.info(f"Reading the x_train,x_test, y_train,y_test from location: {file_location}")
+        filetype = ".csv"
+        x_train = pd.read_csv(os.path.join(file_location,x_train+filetype))
+        x_test = pd.read_csv(os.path.join(file_location,x_test+filetype))
+        y_train = pd.read_csv(os.path.join(file_location,y_train+filetype))
+        y_test = pd.read_csv(os.path.join(file_location,y_test+filetype))
+        logging.info(f"successfully read the x_train,x_test,y_train,y_test from location: {file_location}")
+        return x_train, x_test, y_train, y_test
+    except Exception as e:
+        logging.exception(e)

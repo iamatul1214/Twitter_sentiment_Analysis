@@ -5,8 +5,8 @@ from tqdm import tqdm
 import logging
 from src.utils.common import read_yaml, create_directories
 import random
+from src.utils.data_preprocessing import keep_important_columns, replace_target_values,plot_data_distribution,separating_label_feature,train_test_split_operation,store_preprocessed_dataset,convert_data_into_numpy, convert_numpy_dataset_to_tensors
 from src.utils.data_validation import read_csv, check_null_values,check_binary_classification,check_data_distribution
-
 STAGE = "Data Validation"   ## Name of the stage
 
 logging.basicConfig(
@@ -26,30 +26,44 @@ def main(config_path):
     encoding_type = config['data']['encoding_type']
     negative_sentiment = config['data']['negative_sentiment']
     positive_sentiment = config['data']['positive_sentiment']
+    preprocessed_dataset_folder = config['data']['preprocessed_data_folder']
+    train_test_split_ratio = config['model_config']['train_test_split']
+    random_state = config['model_config']['random_state']
+    shuffle = config['model_config']['shuffle']
     
 
+    
+    ## reading the dataframe
     dataframe = read_csv(file_location=file_location,file_name=file_name,columns=columns,encoding_type=encoding_type)
-  #  logging.info(f"dataframe = \n{dataframe}")
+
+    ##keeping omly important columns and dropping other columns
+    filtered_dataframe = keep_important_columns(dataframe= dataframe)
+
+    ## replacing target values
+    modified_dataframe = replace_target_values(dataframe= filtered_dataframe)
+
+     ## creating train test splits 
+    feature_list, targets = separating_label_feature(dataframe = modified_dataframe)
+    x_train, x_test,y_train, y_test = train_test_split_operation(feature_list = feature_list, targets = targets, test_size =train_test_split_ratio,
+                                                         random_state =random_state, shuffle = shuffle)
+
+
+
+
+
+
+
+    ## read the train test data from preprocessed dataset folder into to_csv
+ #   x_train,x_test,y_train,y_test = read_train_test_split_datasets(file_location=preprocessed_dataset_folder,x_train = "x_train",x_test = "x_test",y_train = "y_train",y_test = "y_test")
     
-    null_value_count = check_null_values(dataframe=dataframe)
+    ## convert train test subsets into the numpy array
+    x_train_numpy,x_test_numpy,y_train_numpy,y_test_numpy = convert_data_into_numpy(x_train = x_train,y_train = y_train, x_test = x_test, y_test=y_test)
+    logging.info(f"x_train = {x_train_numpy.shape}, y_train = {y_train_numpy.shape}, x_test = {x_test_numpy.shape}, y_test = {y_test_numpy.shape}")
 
-    if (null_value_count > 0):
-         logging.info("The total null values count is more than 0. Hence, need to deal with null values first")
-
-    label_check = check_binary_classification(dataframe= dataframe)
-
-    if(label_check != 2):
-        logging.info("The dataset doesn't look like binary classifcation. Hence, exiting the process") 
-    else:
-        logging.info("The dataset looks like a binary classification. Hence, continuing to next check..")
-
-    data_distribution_ratio = check_data_distribution(dataframe= dataframe,negative_sentiment=negative_sentiment, positive_sentiment=positive_sentiment)
-
-    if data_distribution_ratio > 60 or data_distribution_ratio < 40:
-        logging.info("The ratio of data distribution is less than 60:40 hence, failing the pipeline")
-    else:
-        logging.info("The ratio of the data distribution is under 60:40 range hence, passing the pipeline for next stage")
-
+    ## converting the numpy arrays into tensors
+    x_train_tensor,x_test_tensor,y_train_tensor,y_test_tensor = convert_numpy_dataset_to_tensors(x_train = x_train_numpy,y_train = y_train_numpy,
+                                                                                                    x_test = x_test_numpy,y_test = y_test_numpy)
+    logging.info(f"The shape of x_train_tensor = {len(x_train_tensor)}, y_train_tensor = {len(y_train_tensor)}")
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
