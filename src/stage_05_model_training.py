@@ -129,7 +129,7 @@ def main(config_path):
                     validation_steps=30,
                     callbacks=callback_list)
 
-    test_loss, test_acc = model.evaluate(x_test,y_test)
+    test_loss, test_acc = base_model.evaluate(x_test,y_test)
     logging.info(f"test loss: {test_loss}")
     logging.info(f"test accuracy: {test_acc}")
 
