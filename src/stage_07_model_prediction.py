@@ -11,10 +11,8 @@ from src.utils.common import callbacks
 from src.utils.data_preprocessing import keep_important_columns, replace_target_values,plot_data_distribution,separating_label_feature,train_test_split_operation,store_preprocessed_dataset,convert_data_into_numpy, convert_numpy_dataset_to_tensors
 from src.utils.data_validation import read_csv, check_null_values,check_binary_classification,check_data_distribution
 import matplotlib.pyplot as plt
-import time
 
-STAGE = "Model training"   ## Name of the stage
-
+STAGE = "Model prediction on sample text"   ## Name of the stage
 
 logging.basicConfig(
     filename=os.path.join("logs", 'running_logs.log'), 
@@ -46,61 +44,23 @@ def main(config_path):
     ckpt_dir = config['artifacts']['CHECKPOINT_DIR']
     path_to_model = config['artifacts']['BASE_MODEL_DIR']
     epochs = config['model_config']['EPOCHS']
-    metrics = config['model_config']['METRICS']
+    trained_model_dir = config['artifacts']['TRAINED_MODEL_DIR']
     artifacts = config['artifacts']['ARTIFACTS_DIR']
+    metrics = config['model_config']['METRICS']
+    sample_text1 = config['Prediction_data']['sample_text_1']
+    sample_text2 = config['Prediction_data']['sample_text_2']
 
 
-    ## reading the dataframe
-    dataframe = read_csv(file_location=file_location,file_name=file_name,columns=columns,encoding_type=encoding_type)
+    path_to_trained_model = os.path.join(ckpt_dir,trained_model_dir)
+    trained_model = tf.keras.models.load_model(path_to_trained_model)
 
-    ##keeping omly important columns and dropping other columns
-    filtered_dataframe = keep_important_columns(dataframe= dataframe)
+    predictions = trained_model.predict(np.array([sample_text2]))
+    score = predictions[0][0]
 
-    ## replacing target values
-    modified_dataframe = replace_target_values(dataframe= filtered_dataframe)
-
-     ## creating train test splits 
-    feature_list, targets = separating_label_feature(dataframe = modified_dataframe)
-    x_train, x_test,y_train, y_test = train_test_split_operation(feature_list = feature_list, targets = targets, test_size =train_test_split_ratio,
-                                                         random_state =random_state, shuffle = shuffle)
-
-    
-    ## convert train test subsets into the numpy array
-    x_train_numpy,x_test_numpy,y_train_numpy,y_test_numpy = convert_data_into_numpy(x_train = x_train,y_train = y_train, x_test = x_test, y_test=y_test)
-    logging.info(f"x_train = {x_train_numpy.shape}, y_train = {y_train_numpy.shape}, x_test = {x_test_numpy.shape}, y_test = {y_test_numpy.shape}")
-
-    
-    path_to_base_model = os.path.join(path_to_model,base_model_name)
-    logging.info(f"Trying to load the base model stored at location: {path_to_base_model}") 
-    base_model = tf.keras.models.load_model(path_to_base_model)
-    logging.info(f"The loaded base model summary looks like: {base_model.summary()}")
-    callback_list = callbacks(tensorboard_log_dir=tnsbrd_log_dir, checkpoint_dir=ckpt_dir)
-    history = base_model.fit(x_train,y_train,
-                    epochs=epochs,
-                    validation_data=(x_test,y_test),
-                    validation_steps=30,
-                    callbacks=callback_list)
-
-    test_loss, test_acc = base_model.evaluate(x_test,y_test)
-    logging.info(f"test loss: {test_loss}")
-    logging.info(f"test accuracy: {test_acc}")
-
-    ## creating an artifacts directory
-
-    create_directories([artifacts])
-
-    ## saving the training metrics graph
-    history_obj = base_model.history
-    plt.plot(history_obj[metrics])
-    plt.plot(history_obj[f'val_{metrics}'])
-    plt.xlabel("Epochs -->")
-    plt.ylabel(f"{metrics} -->")
-    plt.legend([metrics, f'val_{metrics}'])
-    time = datetime.now().strftime("%d_%m_%Y-%I_%M_%S_%p")
-    plot_name=time +'_'+f"training_{metrics}"+".png"
-    plt.savefig(os.path.join(artifacts,plot_name))
-    logging.info(f"Saved the training {metrics} graph at location: {artifacts}")
-
+    if score > 0 :
+        logging.info(f"result: positive sentiment with score: {score}")
+    else:
+        logging.info(f"result: negetive sentiment with score: {score}")
 
 
 

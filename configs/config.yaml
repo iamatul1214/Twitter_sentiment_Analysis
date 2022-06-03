@@ -57,3 +57,7 @@ Eda_artifacts:
   plots: Eda_plots
   count_plot_name: count_plot
 
+Prediction_data:
+  sample_text_1: Today was very good day
+  sample_text_2: Todaw was very hectic day
+
