@@ -40,7 +40,8 @@ def main(config_path):
     output_dim = config['model_config']['OUTPUT_DIM']
     tnsbrd_log_dir = config['artifacts']['TENSORBOARD_ROOT_LOG_DIR']
     ckpt_dir = config['artifacts']['CHECKPOINT_DIR']
-
+    path_to_model = config['artifacts']['BASE_MODEL_DIR']
+    epochs = config['model_config']['EPOCHS']
 
 
 
@@ -67,55 +68,72 @@ def main(config_path):
     logging.info(f"x_train = {x_train_numpy.shape}, y_train = {y_train_numpy.shape}, x_test = {x_test_numpy.shape}, y_test = {y_test_numpy.shape}")
 
     ## converting the numpy arrays into tensors
-    x_train_tensor,x_test_tensor,y_train_tensor,y_test_tensor = convert_numpy_dataset_to_tensors(x_train = x_train_numpy,y_train = y_train_numpy,
-                                                                                                    x_test = x_test_numpy,y_test = y_test_numpy)
-    logging.info(f"The shape of x_train_tensor = {len(x_train_tensor)}, y_train_tensor = {len(y_train_tensor)}")
+    # x_train_tensor,x_test_tensor,y_train_tensor,y_test_tensor = convert_numpy_dataset_to_tensors(x_train = x_train_numpy,y_train = y_train_numpy,
+    #                                                                                                 x_test = x_test_numpy,y_test = y_test_numpy)
+    # logging.info(f"The shape of x_train_tensor = {len(x_train_tensor)}, y_train_tensor = {len(y_train_tensor)}")
 
     ## creating encoder 
-    encoder = tf.keras.layers.TextVectorization(max_tokens=vocab_size)  ## textvectorization from tensorflow
-    logging.info(f"Encoder created")
-    encoder.adapt(x_train_tensor.batch(batch_size))
-    logging.info(f" Finished training the encoder on the x_train")
+    # encoder = tf.keras.layers.TextVectorization(max_tokens=vocab_size)  ## textvectorization from tensorflow
+    # logging.info(f"Encoder created")
+    # encoder.adapt(x_train_tensor.batch(batch_size))
+    # logging.info(f" Finished training the encoder on the x_train")
 
-    vocab = np.array(encoder.get_vocabulary())  # to create vocabulary
-    logging.info(f"The first 50 vocab = {vocab[:50]}")
+    # vocab = np.array(encoder.get_vocabulary())  # to create vocabulary
+    # logging.info(f"The first 50 vocab = {vocab[:50]}")
 
     ## creating embedding layer
-    embedding_layer = tf.keras.layers.Embedding(
-    input_dim = len(encoder.get_vocabulary()), # 1000
-    output_dim = output_dim, # 64
-    mask_zero = True
-) 
-    logging.info("creating embedding layer")
+    # embedding_layer = tf.keras.layers.Embedding(
+    # input_dim = len(encoder.get_vocabulary()), # 1000
+    # output_dim = output_dim, # 64
+    # mask_zero = True
+# ) 
+#     logging.info("creating embedding layer")
 
 
     ## creating base model directory to store the base model
-    create_directories([base_model_dir])
+    # create_directories([base_model_dir])
     
     ## creating base model and saving it into the model directory
-    Layers = [
-          encoder, # text vectorization
-          embedding_layer, # embedding
-          tf.keras.layers.Bidirectional(
-              tf.keras.layers.LSTM(64)
-          ),
-          tf.keras.layers.Dense(64, activation="relu"),
-          tf.keras.layers.Dense(1)
-            ]
+#     Layers = [
+#           encoder, # text vectorization
+#           embedding_layer, # embedding
+#           tf.keras.layers.Bidirectional(
+#               tf.keras.layers.LSTM(64)
+#           ),
+#           tf.keras.layers.Dense(64, activation="relu"),
+#           tf.keras.layers.Dense(1)
+#             ]
 
-    model = tf.keras.Sequential(Layers)
-    logging.info(f"Model summary looks like: {model.summary()}")
+#     model = tf.keras.Sequential(Layers)
+#     logging.info(f"Model summary looks like: {model.summary}")
 
-    model.compile(
-    loss=tf.keras.losses.BinaryCrossentropy(from_logits=True), # logits means rw output without activation function
-    optimizer=tf.keras.optimizers.Adam(1e-4),
-    metrics=["accuracy"]
-)
-    model.save(os.path.join(base_model_dir,base_model_name))
-    logging.info(f"Saved the model into location: {base_model_dir}")
+#     model.compile(
+#     loss=tf.keras.losses.BinaryCrossentropy(from_logits=True), # logits means rw output without activation function
+#     optimizer=tf.keras.optimizers.Adam(1e-4),
+#     metrics=["accuracy"]
+# )
+#     model.save(os.path.join(base_model_dir,base_model_name))
+#     logging.info(f"Saved the model into location: {base_model_dir}")
 
-    ## creating dirs for saving checkpoints and Logs
-    callbacks(tensorboard_log_dir=tnsbrd_log_dir, checkpoint_dir=ckpt_dir)
+#     ## creating dirs for saving checkpoints and Logs
+#     callbacks(tensorboard_log_dir=tnsbrd_log_dir, checkpoint_dir=ckpt_dir)
+    
+    path_to_base_model = os.path.join(path_to_model,base_model_name)
+    logging.info(f"Trying to load the base model stored at location: {path_to_base_model}") 
+    base_model = tf.keras.models.load_model(path_to_base_model)
+    logging.info(f"The loaded base model summary looks like: {base_model.summary()}")
+    callback_list = callbacks(tensorboard_log_dir=tnsbrd_log_dir, checkpoint_dir=ckpt_dir)
+    history = base_model.fit(x_train,y_train,
+                    epochs=epochs,
+                    validation_data=(x_test,y_test),
+                    validation_steps=30,
+                    callbacks=callback_list)
+
+    test_loss, test_acc = model.evaluate(x_test,y_test)
+    logging.info(f"test loss: {test_loss}")
+    logging.info(f"test accuracy: {test_acc}")
+
+
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
