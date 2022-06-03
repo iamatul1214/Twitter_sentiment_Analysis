@@ -10,7 +10,12 @@ import numpy as np
 from src.utils.common import callbacks
 from src.utils.data_preprocessing import keep_important_columns, replace_target_values,plot_data_distribution,separating_label_feature,train_test_split_operation,store_preprocessed_dataset,convert_data_into_numpy, convert_numpy_dataset_to_tensors
 from src.utils.data_validation import read_csv, check_null_values,check_binary_classification,check_data_distribution
-STAGE = "Data Validation"   ## Name of the stage
+
+
+STAGE = "Model training"   ## Name of the stage
+
+
+
 
 logging.basicConfig(
     filename=os.path.join("logs", 'running_logs.log'), 
@@ -42,6 +47,7 @@ def main(config_path):
     ckpt_dir = config['artifacts']['CHECKPOINT_DIR']
     path_to_model = config['artifacts']['BASE_MODEL_DIR']
     epochs = config['model_config']['EPOCHS']
+    
 
 
 
@@ -59,64 +65,11 @@ def main(config_path):
     x_train, x_test,y_train, y_test = train_test_split_operation(feature_list = feature_list, targets = targets, test_size =train_test_split_ratio,
                                                          random_state =random_state, shuffle = shuffle)
 
-
-    ## read the train test data from preprocessed dataset folder into to_csv
- #   x_train,x_test,y_train,y_test = read_train_test_split_datasets(file_location=preprocessed_dataset_folder,x_train = "x_train",x_test = "x_test",y_train = "y_train",y_test = "y_test")
     
     ## convert train test subsets into the numpy array
     x_train_numpy,x_test_numpy,y_train_numpy,y_test_numpy = convert_data_into_numpy(x_train = x_train,y_train = y_train, x_test = x_test, y_test=y_test)
     logging.info(f"x_train = {x_train_numpy.shape}, y_train = {y_train_numpy.shape}, x_test = {x_test_numpy.shape}, y_test = {y_test_numpy.shape}")
 
-    ## converting the numpy arrays into tensors
-    # x_train_tensor,x_test_tensor,y_train_tensor,y_test_tensor = convert_numpy_dataset_to_tensors(x_train = x_train_numpy,y_train = y_train_numpy,
-    #                                                                                                 x_test = x_test_numpy,y_test = y_test_numpy)
-    # logging.info(f"The shape of x_train_tensor = {len(x_train_tensor)}, y_train_tensor = {len(y_train_tensor)}")
-
-    ## creating encoder 
-    # encoder = tf.keras.layers.TextVectorization(max_tokens=vocab_size)  ## textvectorization from tensorflow
-    # logging.info(f"Encoder created")
-    # encoder.adapt(x_train_tensor.batch(batch_size))
-    # logging.info(f" Finished training the encoder on the x_train")
-
-    # vocab = np.array(encoder.get_vocabulary())  # to create vocabulary
-    # logging.info(f"The first 50 vocab = {vocab[:50]}")
-
-    ## creating embedding layer
-    # embedding_layer = tf.keras.layers.Embedding(
-    # input_dim = len(encoder.get_vocabulary()), # 1000
-    # output_dim = output_dim, # 64
-    # mask_zero = True
-# ) 
-#     logging.info("creating embedding layer")
-
-
-    ## creating base model directory to store the base model
-    # create_directories([base_model_dir])
-    
-    ## creating base model and saving it into the model directory
-#     Layers = [
-#           encoder, # text vectorization
-#           embedding_layer, # embedding
-#           tf.keras.layers.Bidirectional(
-#               tf.keras.layers.LSTM(64)
-#           ),
-#           tf.keras.layers.Dense(64, activation="relu"),
-#           tf.keras.layers.Dense(1)
-#             ]
-
-#     model = tf.keras.Sequential(Layers)
-#     logging.info(f"Model summary looks like: {model.summary}")
-
-#     model.compile(
-#     loss=tf.keras.losses.BinaryCrossentropy(from_logits=True), # logits means rw output without activation function
-#     optimizer=tf.keras.optimizers.Adam(1e-4),
-#     metrics=["accuracy"]
-# )
-#     model.save(os.path.join(base_model_dir,base_model_name))
-#     logging.info(f"Saved the model into location: {base_model_dir}")
-
-#     ## creating dirs for saving checkpoints and Logs
-#     callbacks(tensorboard_log_dir=tnsbrd_log_dir, checkpoint_dir=ckpt_dir)
     
     path_to_base_model = os.path.join(path_to_model,base_model_name)
     logging.info(f"Trying to load the base model stored at location: {path_to_base_model}") 
