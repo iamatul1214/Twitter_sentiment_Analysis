@@ -12,14 +12,24 @@ config_file_path = "configs/config.yaml"
 static_dir=os.path.join(webapp_root,"static")
 template_dir=os.path.join(webapp_root,"templates")
 
+logging.basicConfig(
+    filename=os.path.join("logs", 'running_logs.log'), 
+    level=logging.INFO, 
+    format="[%(asctime)s: %(levelname)s: %(module)s]: %(message)s",
+    filemode="a"
+    )
+
+
 app=Flask(__name__,static_folder=static_dir, template_folder=template_dir)
 
 def read_yaml(config_path=config_file_path):
+    logging.info("Reading the configuration file.")
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
 def predict(text):
+    logging.info("Trying to predict the sentiment for the text : {text}")
     config = read_yaml(config_file_path)
     ckpt_dir = config['artifacts']['CHECKPOINT_DIR']
     trained_model_dir = config['artifacts']['TRAINED_MODEL_DIR']
@@ -28,8 +38,10 @@ def predict(text):
     predictions = trained_model.predict(np.array([text]))
     score = predictions[0][0]
     if score > 0:
+        logging.info(f" Positive Sentiment calculated successfully for text : {text}")
         return "positive sentiment"
     else:
+        logging.info(f" Negative Sentiment calculated successfully for text : {text}")
         return "negative sentiment"
     
 
