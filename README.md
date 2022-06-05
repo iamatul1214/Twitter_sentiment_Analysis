@@ -32,3 +32,9 @@ conda env export > conda.yaml
 ```
 
 ### STEP 06- commit and push the changes to the remote repository
+
+
+### STEP 07- To run it directly on local host 5000
+```bash
+python app.py
+```
