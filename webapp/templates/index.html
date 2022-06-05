@@ -42,7 +42,7 @@ Tweets Sentiment Analysis
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <form method="POST">
+                    <form method="POST" action="/predict">
                         <!-- Input block-->
                         <div class="form-group">
                             <label for="translation">
@@ -73,7 +73,7 @@ Tweets Sentiment Analysis
                                 </blockquote>
 
                             </label>
-                            <textarea readonly class="form-control" id="TexTextarea" rows="5">{{ response }}</textarea>
+                            <textarea readonly class="form-control" id="TexTextarea" rows="3">{{ response }}</textarea>
                         </div>
                     </form>
                 </div>

@@ -4,6 +4,7 @@ import yaml
 import joblib
 import numpy as np
 import tensorflow as tf
+import logging
 
 
 webapp_root="webapp"
@@ -47,21 +48,24 @@ def predict(text):
 
 @app.route('/', methods=['GET','POST'])
 def index():
-    if request.method=='POST':
-       try:
-           if request.form:               
-               tweet = request.form.get('TWEET')
-               response = predict(np.array([tweet]))
+    return render_template('index.html')
 
-               return render_template('index.html',response=response)
+@app.route('/predict',methods=['POST'])
+def predict_sentiment():
+    try:
+        if request.method=='POST':
+                   
+            tweet = request.form.get('TWEET')
+            response = predict(np.array([tweet]))
 
-       except Exception as e:
-           print(e)
-           # error={"error":"Something went wrong!! Try again"}
-           error={"error":e}
-           return render_template("404.html", error=error)
-    else:
-        return render_template('index.html')
+            return render_template('index.html',response=response)
+
+    except Exception as e:
+        print(e)
+        # error={"error":"Something went wrong!! Try again"}
+        error={"error":e}
+        return render_template("404.html", error=error)
+    
         
 
 if __name__=="__main__":
