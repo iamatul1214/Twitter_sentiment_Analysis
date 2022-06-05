@@ -4,4 +4,40 @@ conda_env: conda.yaml
 
 entry_points:
   main:
-    command: "python main.py"
+    command: "python src/main.py"
+
+
+  get_data:
+    parameters:
+      config: { type: str, default: "configs/config.yaml" }
+    command: "python src/stage_01_get_data.py  --config={config}"
+
+  data_validation:
+    parameters:
+      config: { type: str, default: "configs/config.yaml" }
+    command: "python src/stage_02_data_validation.py  --config={config}"
+
+  data_preprocessing:
+    parameters:
+      config: { type: str, default: "configs/config.yaml" }
+    command: "python src/stage_03_data_preprocessing.py  --config={config}"
+
+  base_model_creation:
+    parameters:
+      config: { type: str, default: "configs/config.yaml" }
+    command: "python src/stage_04_base_model_creation.py  --config={config}"
+
+  model_training:
+    parameters:
+      config: { type: str, default: "configs/config.yaml" }
+    command: "python src/stage_05_model_training.py  --config={config}"
+
+  model_testing:
+    parameters:
+      config: { type: str, default: "configs/config.yaml" }
+    command: "python src/stage_06_model_testing.py  --config={config}"
+
+  model_prediction:
+    parameters:
+      config: { type: str, default: "configs/config.yaml" }
+    command: "python src/stage_07_model_prediction.py  --config={config}"
