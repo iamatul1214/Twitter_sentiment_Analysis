@@ -147,3 +147,13 @@ dataset/data.zip
 tweets_dataset
 Logs/running_logs.log
 
+base_model/base_model.h5
+base_model/.
+base_model/base_model.pickle/keras_metadata.pb
+base_model/base_model.pickle/saved_model.pb
+base_model/base_model.pickle/variables/variables.data-00000-of-00001
+base_model/base_model.pickle/variables/variables.index
+Logs/running_logs.log
+Logs/running_logs.log
+checkpoints
+tensorboard_log_dir

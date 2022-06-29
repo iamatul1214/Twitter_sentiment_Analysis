@@ -1,0 +1,337 @@
+ [2022-06-10 21:26:14,539: INFO: stage_01_get_data]: 
+**********************************************************************************************************
+[2022-06-10 21:26:14,540: INFO: stage_01_get_data]: >>>>> stage Get_Data started <<<<<
+[2022-06-10 21:26:14,550: INFO: common]: yaml file: configs/config.yaml loaded successfully
+[2022-06-10 21:26:14,551: INFO: common]: created directory at: dataset
+[2022-06-10 21:26:14,551: INFO: stage_01_get_data]: Checking for source data availability in the local already
+[2022-06-10 21:26:14,551: INFO: stage_01_get_data]: data.zip already present, Hence, skipping the downloading
+[2022-06-10 21:26:14,551: INFO: stage_01_get_data]: data extracted successfully
+[2022-06-10 21:26:14,551: INFO: common]: Trying to rename the file name
+[2022-06-10 21:26:14,552: INFO: common]: File is already renamed. Hence, skipping the renaming
+[2022-06-10 21:26:14,552: INFO: stage_01_get_data]: >>>>> stage Get_Data completed!<<<<<
+
+[2022-06-10 21:26:26,620: INFO: stage_02_data_validation]: 
+********************
+[2022-06-10 21:26:26,620: INFO: stage_02_data_validation]: >>>>> stage Data Validation started <<<<<
+[2022-06-10 21:26:26,628: INFO: common]: yaml file: configs/config.yaml loaded successfully
+[2022-06-10 21:26:26,628: INFO: data_validation]: Trying to read the csv file from the location: tweets_dataset
+[2022-06-10 21:26:35,908: INFO: data_validation]: glimpse of the read dataset from tweets_dataset 
+    target         Ids                          Date      flag             User                                         tweet_text
+0       0  1467810369  Mon Apr 06 22:19:45 PDT 2009  NO_QUERY  _TheSpecialOne_  @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1       0  1467810672  Mon Apr 06 22:19:49 PDT 2009  NO_QUERY    scotthamilton  is upset that he can't update his Facebook by ...
+2       0  1467810917  Mon Apr 06 22:19:53 PDT 2009  NO_QUERY         mattycus  @Kenichan I dived many times for the ball. Man...
+3       0  1467811184  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY          ElleCTF    my whole body feels itchy and like its on fire 
+4       0  1467811193  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY           Karoli  @nationwideclass no, it's not behaving at all....
+[2022-06-10 21:26:35,908: INFO: data_validation]: Trying to check the null values in the dataset
+[2022-06-10 21:26:36,279: INFO: data_validation]: The null values in the dataset is as follows 
+ target        0
+Ids           0
+Date          0
+flag          0
+User          0
+tweet_text    0
+dtype: int64
+[2022-06-10 21:26:36,605: INFO: data_validation]: The overall null values in the dataset = 0
+[2022-06-10 21:26:36,605: INFO: data_validation]: Checking binary classification of targets column in the dataset
+[2022-06-10 21:26:36,648: INFO: data_validation]: The dataset has 2 unique labels
+[2022-06-10 21:26:36,648: INFO: stage_02_data_validation]: The dataset looks like a binary classification. Hence, continuing to next check..
+[2022-06-10 21:26:36,648: INFO: data_validation]: Trying to check the distribution of the dataset
+[2022-06-10 21:26:37,307: INFO: data_validation]: The percentage of the data distribution of postive class is 50.0%
+[2022-06-10 21:26:37,307: INFO: stage_02_data_validation]: The ratio of the data distribution is under 60:40 range hence, passing the pipeline for next stage
+[2022-06-10 21:26:37,452: INFO: stage_02_data_validation]: >>>>> stage Data Validation completed!<<<<<
+
+[2022-06-10 21:26:54,764: INFO: stage_03_data_preprocessing]: 
+********************
+[2022-06-10 21:26:54,764: INFO: stage_03_data_preprocessing]: >>>>> stage Data Preprocessing started <<<<<
+[2022-06-10 21:26:54,784: INFO: common]: yaml file: configs/config.yaml loaded successfully
+[2022-06-10 21:26:54,784: INFO: data_validation]: Trying to read the csv file from the location: tweets_dataset
+[2022-06-10 21:27:02,824: INFO: data_validation]: glimpse of the read dataset from tweets_dataset 
+    target         Ids                          Date      flag             User                                         tweet_text
+0       0  1467810369  Mon Apr 06 22:19:45 PDT 2009  NO_QUERY  _TheSpecialOne_  @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1       0  1467810672  Mon Apr 06 22:19:49 PDT 2009  NO_QUERY    scotthamilton  is upset that he can't update his Facebook by ...
+2       0  1467810917  Mon Apr 06 22:19:53 PDT 2009  NO_QUERY         mattycus  @Kenichan I dived many times for the ball. Man...
+3       0  1467811184  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY          ElleCTF    my whole body feels itchy and like its on fire 
+4       0  1467811193  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY           Karoli  @nationwideclass no, it's not behaving at all....
+[2022-06-10 21:27:02,824: INFO: data_preprocessing]: Trying to remove all the non important columns and just keep target and tweets column inthe dataframe
+[2022-06-10 21:27:03,299: INFO: data_preprocessing]: filtered dataset head looks like 
+    target                                         tweet_text
+0       0  @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1       0  is upset that he can't update his Facebook by ...
+2       0  @Kenichan I dived many times for the ball. Man...
+3       0    my whole body feels itchy and like its on fire 
+4       0  @nationwideclass no, it's not behaving at all....
+[2022-06-10 21:27:03,300: INFO: data_preprocessing]: Trying to replace the the value of 4 for positive sentiment to 1
+[2022-06-10 21:27:03,448: INFO: data_preprocessing]: successfully replace_target value from 4 to 1
+[2022-06-10 21:27:03,449: INFO: common]: created directory at: Eda_plots
+[2022-06-10 21:27:03,449: INFO: data_preprocessing]: Trying to plot the data distribution with count plot and store it in the location : {plot_location}
+[2022-06-10 21:27:33,654: INFO: data_preprocessing]: Saved the count plot figure in the location: Eda_plots with name: 10_06_2022-09_27_29_PM_count_plot.png
+[2022-06-10 21:27:33,654: INFO: data_preprocessing]: Trying to store tweet text and target values differently
+[2022-06-10 21:27:33,662: INFO: data_preprocessing]: The x and y data is successfully separated: 0          @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1          is upset that he can't update his Facebook by ...
+2          @Kenichan I dived many times for the ball. Man...
+3            my whole body feels itchy and like its on fire 
+4          @nationwideclass no, it's not behaving at all....
+                                 ...                        
+1599995    Just woke up. Having no school is the best fee...
+1599996    TheWDB.com - Very cool to hear old Walt interv...
+1599997    Are you ready for your MoJo Makeover? Ask me f...
+1599998    Happy 38th Birthday to my boo of alll time!!! ...
+1599999    happy #charitytuesday @theNSPCC @SparksCharity...
+Name: tweet_text, Length: 1600000, dtype: object and 0          0
+1          0
+2          0
+3          0
+4          0
+          ..
+1599995    1
+1599996    1
+1599997    1
+1599998    1
+1599999    1
+Name: target, Length: 1600000, dtype: int64
+[2022-06-10 21:27:33,662: INFO: data_preprocessing]: Trying to create the train test split
+[2022-06-10 21:27:34,452: INFO: data_preprocessing]: The train test split happened properly with ratio: 0.25 and shape of x_train: (1200000,), y_train:(1200000,), x_test:(400000,), y_test:(400000,)
+[2022-06-10 21:27:34,452: INFO: common]: created directory at: preprocessed_dataset
+[2022-06-10 21:27:34,453: INFO: data_preprocessing]: Trying to delete the older stored datasets into the location : preprocessed_dataset
+[2022-06-10 21:27:34,456: INFO: data_preprocessing]: Deleted x_test.csv stored datasets from the location : preprocessed_dataset
+[2022-06-10 21:27:34,469: ERROR: data_preprocessing]: [WinError 32] The process cannot access the file because it is being used by another process: 'preprocessed_dataset\\x_train.csv'
+Traceback (most recent call last):
+  File "c:\users\atulkumarrai\pycharmprojects\ineuron practice\ineuron_practice\twitter_sentiment_analysis\src\utils\data_preprocessing.py", line 71, in store_preprocessed_dataset
+    os.remove(os.path.join(folder_location, f))
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'preprocessed_dataset\\x_train.csv'
+[2022-06-10 21:27:34,470: INFO: stage_03_data_preprocessing]: >>>>> stage Data Preprocessing completed!<<<<<
+
+[2022-06-10 21:29:26,717: INFO: stage_04_base_model_creation]: 
+********************
+[2022-06-10 21:29:26,718: INFO: stage_04_base_model_creation]: >>>>> stage Base model creation started <<<<<
+[2022-06-10 21:29:26,795: INFO: common]: yaml file: configs/config.yaml loaded successfully
+[2022-06-10 21:29:26,796: INFO: data_validation]: Trying to read the csv file from the location: tweets_dataset
+[2022-06-10 21:29:46,340: INFO: data_validation]: glimpse of the read dataset from tweets_dataset 
+    target         Ids                          Date      flag             User                                         tweet_text
+0       0  1467810369  Mon Apr 06 22:19:45 PDT 2009  NO_QUERY  _TheSpecialOne_  @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1       0  1467810672  Mon Apr 06 22:19:49 PDT 2009  NO_QUERY    scotthamilton  is upset that he can't update his Facebook by ...
+2       0  1467810917  Mon Apr 06 22:19:53 PDT 2009  NO_QUERY         mattycus  @Kenichan I dived many times for the ball. Man...
+3       0  1467811184  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY          ElleCTF    my whole body feels itchy and like its on fire 
+4       0  1467811193  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY           Karoli  @nationwideclass no, it's not behaving at all....
+[2022-06-10 21:29:46,340: INFO: data_preprocessing]: Trying to remove all the non important columns and just keep target and tweets column inthe dataframe
+[2022-06-10 21:29:46,388: INFO: data_preprocessing]: filtered dataset head looks like 
+    target                                         tweet_text
+0       0  @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1       0  is upset that he can't update his Facebook by ...
+2       0  @Kenichan I dived many times for the ball. Man...
+3       0    my whole body feels itchy and like its on fire 
+4       0  @nationwideclass no, it's not behaving at all....
+[2022-06-10 21:29:46,388: INFO: data_preprocessing]: Trying to replace the the value of 4 for positive sentiment to 1
+[2022-06-10 21:29:46,421: INFO: data_preprocessing]: successfully replace_target value from 4 to 1
+[2022-06-10 21:29:46,421: INFO: data_preprocessing]: Trying to store tweet text and target values differently
+[2022-06-10 21:29:46,426: INFO: data_preprocessing]: The x and y data is successfully separated: 0          @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1          is upset that he can't update his Facebook by ...
+2          @Kenichan I dived many times for the ball. Man...
+3            my whole body feels itchy and like its on fire 
+4          @nationwideclass no, it's not behaving at all....
+                                 ...                        
+1599995    Just woke up. Having no school is the best fee...
+1599996    TheWDB.com - Very cool to hear old Walt interv...
+1599997    Are you ready for your MoJo Makeover? Ask me f...
+1599998    Happy 38th Birthday to my boo of alll time!!! ...
+1599999    happy #charitytuesday @theNSPCC @SparksCharity...
+Name: tweet_text, Length: 1600000, dtype: object and 0          0
+1          0
+2          0
+3          0
+4          0
+          ..
+1599995    1
+1599996    1
+1599997    1
+1599998    1
+1599999    1
+Name: target, Length: 1600000, dtype: int64
+[2022-06-10 21:29:46,426: INFO: data_preprocessing]: Trying to create the train test split
+[2022-06-10 21:29:47,037: INFO: data_preprocessing]: The train test split happened properly with ratio: 0.25 and shape of x_train: (1200000,), y_train:(1200000,), x_test:(400000,), y_test:(400000,)
+[2022-06-10 21:29:47,038: INFO: data_preprocessing]: Trying to convert the dataset into numpy and flatten them
+[2022-06-10 21:29:47,163: INFO: data_preprocessing]: Converted successfully the dataset into numpy array and flattened it
+[2022-06-10 21:29:47,163: INFO: stage_04_base_model_creation]: x_train = (1200000,), y_train = (1200000,), x_test = (400000,), y_test = (400000,)
+[2022-06-10 21:29:47,163: INFO: data_preprocessing]: Trying to convert the numpy datasets into tensors
+[2022-06-10 21:29:53,265: INFO: data_preprocessing]: Successfully converted the numpy datasets into tensors
+[2022-06-10 21:29:53,429: INFO: stage_04_base_model_creation]: The shape of x_train_tensor = 1200000, y_train_tensor = 1200000
+[2022-06-10 21:29:54,461: INFO: stage_04_base_model_creation]: Encoder created
+[2022-06-10 21:30:59,664: INFO: stage_04_base_model_creation]:  Finished training the encoder on the x_train
+[2022-06-10 21:30:59,801: INFO: stage_04_base_model_creation]: The first 50 vocab = ['' '[UNK]' 'i' 'to' 'the' 'a' 'my' 'and' 'you' 'is' 'it' 'for' 'in' 'of'
+ 'im' 'on' 'me' 'so' 'have' 'that' 'but' 'just' 'with' 'be' 'at' 'its'
+ 'not' 'was' 'this' 'now' 'good' 'up' 'day' 'get' 'all' 'out' 'like' 'are'
+ 'no' 'go' 'dont' 'do' 'your' 'today' 'too' 'going' 'love' 'work' 'cant'
+ 'got']
+[2022-06-10 21:30:59,834: INFO: stage_04_base_model_creation]: creating embedding layer
+[2022-06-10 21:30:59,835: INFO: common]: created directory at: base_model
+[2022-06-10 21:31:08,065: INFO: stage_04_base_model_creation]: Model summary looks like: None
+[2022-06-10 21:31:38,436: WARNING: save]: Found untraced functions such as lstm_cell_1_layer_call_fn, lstm_cell_1_layer_call_and_return_conditional_losses, lstm_cell_2_layer_call_fn, lstm_cell_2_layer_call_and_return_conditional_losses while saving (showing 4 of 4). These functions will not be directly callable after loading.
+[2022-06-10 21:32:07,404: INFO: builder_impl]: Assets written to: base_model\base_model.pickle\assets
+[2022-06-10 21:32:11,396: INFO: stage_04_base_model_creation]: Saved the model into location: base_model
+[2022-06-10 21:32:22,274: INFO: stage_04_base_model_creation]: >>>>> stage Base model creation completed!<<<<<
+
+[2022-06-10 21:36:23,884: INFO: stage_06_model_testing]: 
+********************
+[2022-06-10 21:36:23,885: INFO: stage_06_model_testing]: >>>>> stage Model testing on unknown dataset started <<<<<
+[2022-06-10 21:36:23,946: INFO: common]: yaml file: configs/config.yaml loaded successfully
+[2022-06-10 21:36:54,038: INFO: data_validation]: Trying to read the csv file from the location: tweets_dataset
+[2022-06-10 21:37:14,432: INFO: data_validation]: glimpse of the read dataset from tweets_dataset 
+    target         Ids                          Date      flag             User                                         tweet_text
+0       0  1467810369  Mon Apr 06 22:19:45 PDT 2009  NO_QUERY  _TheSpecialOne_  @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1       0  1467810672  Mon Apr 06 22:19:49 PDT 2009  NO_QUERY    scotthamilton  is upset that he can't update his Facebook by ...
+2       0  1467810917  Mon Apr 06 22:19:53 PDT 2009  NO_QUERY         mattycus  @Kenichan I dived many times for the ball. Man...
+3       0  1467811184  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY          ElleCTF    my whole body feels itchy and like its on fire 
+4       0  1467811193  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY           Karoli  @nationwideclass no, it's not behaving at all....
+[2022-06-10 21:37:14,432: INFO: data_preprocessing]: Trying to remove all the non important columns and just keep target and tweets column inthe dataframe
+[2022-06-10 21:37:14,660: INFO: data_preprocessing]: filtered dataset head looks like 
+    target                                         tweet_text
+0       0  @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1       0  is upset that he can't update his Facebook by ...
+2       0  @Kenichan I dived many times for the ball. Man...
+3       0    my whole body feels itchy and like its on fire 
+4       0  @nationwideclass no, it's not behaving at all....
+[2022-06-10 21:37:14,661: INFO: data_preprocessing]: Trying to replace the the value of 4 for positive sentiment to 1
+[2022-06-10 21:37:14,884: INFO: data_preprocessing]: successfully replace_target value from 4 to 1
+[2022-06-10 21:37:14,884: INFO: data_preprocessing]: Trying to store tweet text and target values differently
+[2022-06-10 21:37:14,896: INFO: data_preprocessing]: The x and y data is successfully separated: 0          @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1          is upset that he can't update his Facebook by ...
+2          @Kenichan I dived many times for the ball. Man...
+3            my whole body feels itchy and like its on fire 
+4          @nationwideclass no, it's not behaving at all....
+                                 ...                        
+1599995    Just woke up. Having no school is the best fee...
+1599996    TheWDB.com - Very cool to hear old Walt interv...
+1599997    Are you ready for your MoJo Makeover? Ask me f...
+1599998    Happy 38th Birthday to my boo of alll time!!! ...
+1599999    happy #charitytuesday @theNSPCC @SparksCharity...
+Name: tweet_text, Length: 1600000, dtype: object and 0          0
+1          0
+2          0
+3          0
+4          0
+          ..
+1599995    1
+1599996    1
+1599997    1
+1599998    1
+1599999    1
+Name: target, Length: 1600000, dtype: int64
+[2022-06-10 21:37:14,897: INFO: data_preprocessing]: Trying to create the train test split
+[2022-06-10 21:37:15,576: INFO: data_preprocessing]: The train test split happened properly with ratio: 0.25 and shape of x_train: (1200000,), y_train:(1200000,), x_test:(400000,), y_test:(400000,)
+[2022-06-10 21:37:15,576: INFO: data_preprocessing]: Trying to convert the dataset into numpy and flatten them
+[2022-06-10 21:37:15,701: INFO: data_preprocessing]: Converted successfully the dataset into numpy array and flattened it
+[2022-06-10 21:37:15,702: INFO: stage_06_model_testing]: x_train = (1200000,), y_train = (1200000,), x_test = (400000,), y_test = (400000,)
+[2022-06-10 21:37:31,012: INFO: stage_06_model_testing]: test loss: 0.41870570182800293
+[2022-06-10 21:37:31,013: INFO: stage_06_model_testing]: test accuracy: 0.7829999923706055
+[2022-06-10 21:37:31,342: INFO: stage_06_model_testing]: >>>>> stage Model testing on unknown dataset completed!<<<<<
+
+[2022-06-10 21:40:01,704: INFO: stage_07_model_prediction]: 
+********************
+[2022-06-10 21:40:01,704: INFO: stage_07_model_prediction]: >>>>> stage Model prediction on sample text started <<<<<
+[2022-06-10 21:40:01,722: INFO: common]: yaml file: configs/config.yaml loaded successfully
+[2022-06-10 21:40:20,708: INFO: stage_07_model_prediction]: result: negetive sentiment with score: -0.06779762357473373
+[2022-06-10 21:40:20,709: INFO: stage_07_model_prediction]: >>>>> stage Model prediction on sample text completed!<<<<<
+
+[2022-06-11 17:48:15,893: INFO: _internal]:  * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.5:5000 (Press CTRL+C to quit)
+[2022-06-11 17:48:15,906: INFO: _internal]:  * Restarting with stat
+[2022-06-11 17:48:22,445: WARNING: _internal]:  * Debugger is active!
+[2022-06-11 17:48:22,634: INFO: _internal]:  * Debugger PIN: 704-238-324
+[2022-06-11 17:50:54,470: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 17:50:54] "GET / HTTP/1.1" 200 -
+[2022-06-11 17:50:55,461: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 17:50:55] "GET /static/script/index.js HTTP/1.1" 200 -
+[2022-06-11 17:50:55,491: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 17:50:55] "GET /static/css/main.css HTTP/1.1" 200 -
+[2022-06-11 17:50:56,379: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 17:50:56] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2022-06-11 18:07:07,705: INFO: app]: Trying to predict the sentiment for the text : {text}
+[2022-06-11 18:07:07,705: INFO: app]: Reading the configuration file.
+[2022-06-11 18:08:04,259: INFO: app]:  Negative Sentiment calculated successfully for text : ['The protest went violent, killing many.']
+[2022-06-11 18:08:04,260: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 18:08:04] "POST /predict HTTP/1.1" 200 -
+[2022-06-11 18:08:04,378: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 18:08:04] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-11 18:08:04,409: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 18:08:04] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-11 18:09:32,740: INFO: _internal]:  * Detected change in 'C:\\Users\\atulkumarrai\\PycharmProjects\\Ineuron practice\\Ineuron_practice\\Twitter_sentiment_Analysis\\app.py', reloading
+[2022-06-11 18:13:10,601: INFO: _internal]:  * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.5:5000 (Press CTRL+C to quit)
+[2022-06-11 18:13:10,636: INFO: _internal]:  * Restarting with stat
+[2022-06-11 18:13:17,654: WARNING: _internal]:  * Debugger is active!
+[2022-06-11 18:13:17,702: INFO: _internal]:  * Debugger PIN: 704-238-324
+[2022-06-11 18:34:14,401: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 18:34:14] "GET / HTTP/1.1" 200 -
+[2022-06-11 18:34:17,099: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 18:34:17] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-11 18:34:17,101: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 18:34:17] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-11 18:34:27,731: INFO: app]: Trying to predict the sentiment for the text : {text}
+[2022-06-11 18:34:27,732: INFO: app]: Reading the configuration file.
+[2022-06-11 18:35:24,543: INFO: app]:  Positive Sentiment calculated successfully for text : ["I'm excited today"]
+[2022-06-11 18:35:24,544: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 18:35:24] "POST /predict HTTP/1.1" 200 -
+[2022-06-11 18:35:24,907: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 18:35:24] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-11 18:35:24,913: INFO: _internal]: 127.0.0.1 - - [11/Jun/2022 18:35:24] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-11 18:40:30,261: INFO: _internal]:  * Detected change in 'c:\\users\\atulkumarrai\\pycharmprojects\\ineuron practice\\ineuron_practice\\twitter_sentiment_analysis\\app.py', reloading
+[2022-06-11 18:40:35,658: INFO: _internal]:  * Restarting with stat
+[2022-06-11 18:46:18,955: INFO: _internal]:  * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.5:5000 (Press CTRL+C to quit)
+[2022-06-11 18:46:18,966: INFO: _internal]:  * Restarting with stat
+[2022-06-11 18:46:24,206: WARNING: _internal]:  * Debugger is active!
+[2022-06-11 18:46:24,228: INFO: _internal]:  * Debugger PIN: 704-238-324
+[2022-06-18 23:59:53,809: INFO: _internal]:  * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.11:5000 (Press CTRL+C to quit)
+[2022-06-18 23:59:53,827: INFO: _internal]:  * Restarting with stat
+[2022-06-19 00:00:04,638: WARNING: _internal]:  * Debugger is active!
+[2022-06-19 00:00:04,867: INFO: _internal]:  * Debugger PIN: 704-238-324
+[2022-06-19 00:03:35,789: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:03:35] "GET / HTTP/1.1" 200 -
+[2022-06-19 00:03:35,799: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:03:35] "GET / HTTP/1.1" 200 -
+[2022-06-19 00:03:35,812: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:03:35] "GET / HTTP/1.1" 200 -
+[2022-06-19 00:03:35,822: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:03:35] "GET / HTTP/1.1" 200 -
+[2022-06-19 00:03:40,451: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:03:40] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:03:41,914: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:03:41] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:03:44,813: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:03:44] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2022-06-19 00:04:22,330: INFO: app]: Trying to predict the sentiment for the text : {text}
+[2022-06-19 00:04:22,330: INFO: app]: Reading the configuration file.
+[2022-06-19 00:05:34,339: INFO: app]:  Negative Sentiment calculated successfully for text : ['The violent protests over the new govt policies are disturbing.']
+[2022-06-19 00:05:34,385: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:05:34] "POST /predict HTTP/1.1" 200 -
+[2022-06-19 00:05:34,781: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:05:34] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:05:34,782: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:05:34] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:07:07,853: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:07:07] "GET / HTTP/1.1" 200 -
+[2022-06-19 00:07:07,904: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:07:07] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:07:08,117: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:07:08] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:07:12,611: INFO: app]: Trying to predict the sentiment for the text : {text}
+[2022-06-19 00:07:12,612: INFO: app]: Reading the configuration file.
+[2022-06-19 00:07:52,634: INFO: app]:  Negative Sentiment calculated successfully for text : ['This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX AVX2\r\nTo enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.']
+[2022-06-19 00:07:52,636: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:07:52] "POST /predict HTTP/1.1" 200 -
+[2022-06-19 00:07:53,048: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:07:53] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:07:53,077: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:07:53] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:08:38,720: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:08:38] "GET / HTTP/1.1" 200 -
+[2022-06-19 00:08:38,758: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:08:38] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:08:38,972: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:08:38] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:09:12,329: INFO: app]: Trying to predict the sentiment for the text : {text}
+[2022-06-19 00:09:12,329: INFO: app]: Reading the configuration file.
+[2022-06-19 00:09:42,297: INFO: app]:  Negative Sentiment calculated successfully for text : ['The violent protests over the govt policies are disturbing.']
+[2022-06-19 00:09:42,298: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:09:42] "POST /predict HTTP/1.1" 200 -
+[2022-06-19 00:09:42,647: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:09:42] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:09:42,662: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:09:42] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:10:04,690: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:10:04] "GET / HTTP/1.1" 200 -
+[2022-06-19 00:10:04,726: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:10:04] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:10:04,950: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:10:04] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:10:06,745: INFO: app]: Trying to predict the sentiment for the text : {text}
+[2022-06-19 00:10:06,745: INFO: app]: Reading the configuration file.
+[2022-06-19 00:10:48,885: INFO: app]:  Negative Sentiment calculated successfully for text : ['The violent protests over the govt policies are disturbing.']
+[2022-06-19 00:10:48,899: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:10:48] "POST /predict HTTP/1.1" 200 -
+[2022-06-19 00:10:49,272: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:10:49] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:10:49,273: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:10:49] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:10:55,284: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:10:55] "GET / HTTP/1.1" 200 -
+[2022-06-19 00:10:55,578: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:10:55] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:10:55,653: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:10:55] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:11:18,549: INFO: app]: Trying to predict the sentiment for the text : {text}
+[2022-06-19 00:11:18,550: INFO: app]: Reading the configuration file.
+[2022-06-19 00:11:43,444: WARNING: def_function]: 5 out of the last 5 calls to <function Model.make_predict_function.<locals>.predict_function at 0x00000287E83FAD38> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+[2022-06-19 00:11:43,495: INFO: app]:  Negative Sentiment calculated successfully for text : ['The violent protests over the govt policies are disturbing.']
+[2022-06-19 00:11:43,497: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:11:43] "POST /predict HTTP/1.1" 200 -
+[2022-06-19 00:11:43,852: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:11:43] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:11:43,855: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:11:43] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
+[2022-06-19 00:11:49,950: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:11:49] "GET / HTTP/1.1" 200 -
+[2022-06-19 00:11:49,984: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:11:49] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+[2022-06-19 00:11:50,216: INFO: _internal]: 127.0.0.1 - - [19/Jun/2022 00:11:50] "[36mGET /static/script/index.js HTTP/1.1[0m" 304 -
