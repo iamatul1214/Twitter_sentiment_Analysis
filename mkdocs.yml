@@ -8,8 +8,8 @@ site_author: Atul Kumar Rai
 site_description: >-
   DESCRIPTION
 # Repository
-repo_name: Twitter_Sentiment_Analysis
-repo_url: https://github.com/iamatul1214/REPO_NAME
+repo_name: iamatul1214/Twitter_Sentiment_Analysis
+repo_url: https://github.com/iamatul1214/TWITTER_SENTIMENT_ANALYSIS
 
 # Configuration
 theme:
