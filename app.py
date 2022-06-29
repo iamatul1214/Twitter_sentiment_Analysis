@@ -35,7 +35,7 @@ def predict(text):
     ckpt_dir = config['artifacts']['CHECKPOINT_DIR']
     trained_model_dir = config['artifacts']['TRAINED_MODEL_DIR']
     path_to_trained_model = os.path.join(ckpt_dir,trained_model_dir)
-    trained_model = tf.keras.models.load_model(path_to_trained_model)
+    trained_model = tf.keras.models.load_model(path_to_trained_model, compile=False)
     predictions = trained_model.predict(np.array([text]))
     score = predictions[0][0]
     if score > 0:
